@@ -1,3 +1,5 @@
+Rem Before building run ./start.bat script atleast once
+
 Rem Windows
 Rem Sadly nuitka doesn't support cross-compilation so you have to 
 Rem setup virtual machine, install python 3.12 and use it to compile the app

@@ -8,6 +8,7 @@ if [ ! -d "$DIRECTORY" ]; then
     # Check if ./requirements.txt exist and install them
     REQUIREMENTS="./requirements.txt"
     if [ -f "$REQUIREMENTS" ]; then
+        source ./venv/bin/activate
         python -m pip install -r ./requirements.txt
     fi
 fi

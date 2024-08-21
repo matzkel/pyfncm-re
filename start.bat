@@ -7,7 +7,10 @@ if not exists DIRECTORY {
 
     Rem Check if ./requirements.txt exist and install them
     set REQUIREMENTS=requirements.txt
-    if exists REQUIREMENTS python -m pip install -r requirements.txt
+    if exists REQUIREMENTS {
+        call venv\Scripts\activate.bat
+        python -m pip install -r requirements.txt
+    }
 }
 
 Rem Start the application

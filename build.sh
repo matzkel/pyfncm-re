@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Before building use ./start.sh script atleast once
+# Before building run ./start.sh script atleast once
 
 # Linux
 # patchelf is REQUIRED to create standalone application on linux
