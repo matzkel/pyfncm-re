@@ -1,6 +1,7 @@
 Rem Check if ./venv exists
 @echo off
 
+Rem Check if ./venv exists
 set DIRECTORY=venv
 if not exists DIRECTORY {
     python -m venv venv
