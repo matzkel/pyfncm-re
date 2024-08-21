@@ -1,4 +1,3 @@
-Rem Check if ./venv exists
 @echo off
 
 Rem Check if ./venv exists
