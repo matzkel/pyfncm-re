@@ -8,7 +8,7 @@ if [ ! -d "$DIRECTORY" ]; then
     # Check if ./requirements.txt exist and install them
     REQUIREMENTS="./requirements.txt"
     if [ -d "$REQUIREMENTS" ]; then
-        python -m pip install -r requirements.txt
+        python -m pip install -r ./requirements.txt
     fi
 fi
 
