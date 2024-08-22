@@ -101,4 +101,4 @@ class AddClientDialog(QDialog):
             logger.warn("One or more fields are empty, please fill them.")
             return
 
-        asyncio.run(self.add_client_to_database(logger, user_data))
+        asyncio.run(self.add_client_to_database(logger, user_data), debug=False)
