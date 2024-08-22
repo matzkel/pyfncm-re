@@ -18,7 +18,7 @@ import aiosqlite as sql
 from PySide6.QtWidgets import QApplication, QMainWindow
 
 from logger import getLogger
-from profile_widget import ProfileWidget
+from main_widget import MainWidget
 
 
 class MainWindow(QMainWindow):
@@ -80,6 +80,6 @@ if __name__ == "__main__":
     app = QApplication([])
     logger.info("Application started...")
 
-    main_window = MainWindow(ProfileWidget())
+    main_window = MainWindow(MainWidget())
     main_window.show()
     sys.exit(app.exec())
