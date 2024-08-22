@@ -45,7 +45,7 @@ class AddClientDialog(QDialog):
 
         height = layout.totalMinimumSize().height()
         self.setFixedHeight(height)
-        self.setMinimumWidth(512)
+        self.setFixedWidth(512)
 
         button_box.accepted.connect(self.accept)
         button_box.rejected.connect(self.reject)
