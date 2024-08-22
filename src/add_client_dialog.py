@@ -53,24 +53,37 @@ class AddClientDialog(QDialog):
     async def add_client_to_database(self, logger, data):
         """Add client to the database."""
         async with sql.connect("data.db") as db:
+            # Check if client with exact first name and last name already exists in the database
             operation = """
-            INSERT INTO clients (first_name, last_name, address, phone_number)
-            VALUES (?, ?, ?, ?);
-            """
-            try:
-                await db.execute(operation, data)
-                await db.commit()
-            except sql.IntegrityError:
-                QMessageBox.warning(
-                    self,
-                    "Une erreur s'est produite!",
-                    f"Le client avec le prénom ({data[0]}) et/ou le nom ({data[1]}) donné existe déjà dans la base de données.",
-                    QMessageBox.Ok,
-                )
-                logger.warn(
-                    f"Client with given first name ({data[0]}) and/or last name ({data[1]}) already exists in the database."
-                )
-                return
+                        SELECT
+                            first_name, last_name
+                        FROM
+                            clients
+                        WHERE
+                            first_name = (?)
+                            AND last_name = (?);"""
+
+            async with db.execute(operation, (data[0], data[1])) as cursor:
+                async for row in cursor:
+                    QMessageBox.warning(
+                        self,
+                        "Une erreur s'est produite!",
+                        f"Le client avec le prénom ({data[0]}) et/ou le nom ({data[1]}) donné existe déjà dans la base de données.",
+                        QMessageBox.Ok,
+                    )
+                    logger.warn(
+                        f"Client with given first name ({data[0]}) and/or last name ({data[1]}) already exists in the database."
+                    )
+                    return
+
+            operation = """
+                        INSERT INTO clients (
+                            first_name, last_name, address, phone_number
+                        )
+                        VALUES
+                            (?, ?, ?, ?);"""
+            await db.execute(operation, data)
+            await db.commit()
         QMessageBox.information(
             self,
             "Succès!",
