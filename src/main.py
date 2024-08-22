@@ -34,8 +34,8 @@ async def initialize_database(logger):
         # Create clients table if it doesn't exist
         operation = """
                     CREATE TABLE IF NOT EXISTS clients (
-                        id INTEGER PRIMARY KEY, first_name TEXT UNIQUE NOT NULL, 
-                        last_name TEXT UNIQUE NOT NULL, address TEXT NOT NULL, 
+                        id INTEGER PRIMARY KEY, first_name TEXT NOT NULL,
+                        last_name TEXT NOT NULL, address TEXT NOT NULL,
                         phone_number TEXT NOT NULL
                     );"""
         await db.execute(operation)
@@ -59,8 +59,8 @@ async def initialize_database(logger):
         # Create food table if it doesn't exist
         operation = """
                     CREATE TABLE IF NOT EXISTS food (
-                        id INTEGER PRIMARY KEY, food_name TEXT UNIQUE NOT NULL, 
-                        red_color INTEGER, green_color INTEGER, 
+                        id INTEGER PRIMARY KEY, food_name TEXT UNIQUE NOT NULL,
+                        red_color INTEGER, green_color INTEGER,
                         blue_color INTEGER
                     );"""
         await db.execute(operation)
