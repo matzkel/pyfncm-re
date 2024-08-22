@@ -53,7 +53,7 @@ class AddClientDialog(QDialog):
     async def add_client_to_database(self, logger, data):
         """Add client to the database."""
         async with sql.connect("data.db") as db:
-            # Check if client with exact first name and last name already exists in the database
+            # Check if a client with the exact first and last name already exists in the database
             operation = """
                         SELECT
                             first_name, last_name
@@ -72,7 +72,7 @@ class AddClientDialog(QDialog):
                         QMessageBox.Ok,
                     )
                     logger.warn(
-                        f"Client with given first name ({data[0]}) and/or last name ({data[1]}) already exists in the database."
+                        f"A client with the given first ({data[0]}) and/or last name ({data[1]}) already exists in the database."
                     )
                     return
 
@@ -90,7 +90,7 @@ class AddClientDialog(QDialog):
             f"Le client ({data[0]} {data[1]}, {data[2]}, {data[3]}) a été ajouté à la base de données.",
         )
         logger.info(
-            f"Added ({data[0]}, {data[1]}, {data[2]}, {data[3]}) values into 'clients' table."
+            f"Added ({data[0]}, {data[1]}, {data[2]}, {data[3]}) values into the 'clients' table."
         )
         self.close()
 
@@ -108,10 +108,10 @@ class AddClientDialog(QDialog):
             QMessageBox.warning(
                 self,
                 "Une erreur s'est produite!",
-                "Un ou plusieurs champs sont vides, merci de les remplir.",
+                "Un ou plusieurs champs sont vides; merci de les remplir.",
                 QMessageBox.Ok,
             )
-            logger.warn("One or more fields are empty, please fill them.")
+            logger.warn("One or more fields are empty; please fill them.")
             return
 
         asyncio.run(self.add_client_to_database(logger, user_data), debug=False)
