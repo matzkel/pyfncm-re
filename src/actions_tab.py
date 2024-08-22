@@ -17,7 +17,7 @@ class ActionsTab(QWidget):
         self._add_food = QPushButton("Ajouter de la nourriture")
         self._delete_food = QPushButton("Supprimer la nourriture")
 
-        layout = QVBoxLayout()
+        layout = QVBoxLayout(self)
         layout.addWidget(self._add_client)
         layout.addWidget(self._delete_client)
         layout.addWidget(self._add_food)
