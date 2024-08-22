@@ -33,7 +33,7 @@ def getLogger(name):
         filename=os.path.join(LOG_PATH, f"{current_date.strftime("%Y-%m-%d")}.log"),
         encoding="utf-8",
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        level=logging.DEBUG,
+        level=logging.INFO,
     )
 
     return logger
