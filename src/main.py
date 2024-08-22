@@ -75,7 +75,7 @@ if __name__ == "__main__":
 
     logger = getLogger("main.py")
 
-    asyncio.run(initialize_database(logger))
+    asyncio.run(initialize_database(logger), debug=False)
 
     app = QApplication([])
     logger.info("Application started...")
