@@ -21,21 +21,21 @@ class AddClientDialog(QDialog):
         self.setWindowTitle("pyfncm - Python Food and Clientèle Manager")
 
         form_layout = QFormLayout()
-        self.first_name_line_edit = QLineEdit()
-        self.first_name_line_edit.setMaxLength(128)
-        form_layout.addRow("&Prénom:", self.first_name_line_edit)
+        self._first_name_line_edit = QLineEdit()
+        self._first_name_line_edit.setMaxLength(128)
+        form_layout.addRow("&Prénom:", self._first_name_line_edit)
 
-        self.last_name_line_edit = QLineEdit()
-        self.last_name_line_edit.setMaxLength(128)
-        form_layout.addRow("&Nom de famille:", self.last_name_line_edit)
+        self._last_name_line_edit = QLineEdit()
+        self._last_name_line_edit.setMaxLength(128)
+        form_layout.addRow("&Nom de famille:", self._last_name_line_edit)
 
-        self.address_line_edit = QLineEdit()
-        self.address_line_edit.setMaxLength(128)
-        form_layout.addRow("&Addresse:", self.address_line_edit)
+        self._address_line_edit = QLineEdit()
+        self._address_line_edit.setMaxLength(128)
+        form_layout.addRow("&Addresse:", self._address_line_edit)
 
-        self.phone_number_line_edit = QLineEdit()
-        self.phone_number_line_edit.setMaxLength(128)
-        form_layout.addRow("&Numéro de téléphone:", self.phone_number_line_edit)
+        self._phone_number_line_edit = QLineEdit()
+        self._phone_number_line_edit.setMaxLength(128)
+        form_layout.addRow("&Numéro de téléphone:", self._phone_number_line_edit)
 
         button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
 
@@ -52,6 +52,8 @@ class AddClientDialog(QDialog):
 
     async def add_client_to_database(self, logger, data):
         """Add client to the database."""
+        (first_name, last_name, address, phone_number) = data
+
         async with sql.connect("data.db") as db:
             # Check if a client with the exact first and last name already exists in the database
             operation = """
@@ -63,16 +65,18 @@ class AddClientDialog(QDialog):
                             first_name = (?)
                             AND last_name = (?);"""
 
-            async with db.execute(operation, (data[0], data[1])) as cursor:
+            # Try to find client with the same first and last name.
+            async with db.execute(operation, (first_name, last_name)) as cursor:
                 async for row in cursor:
+                    # When found, don't do anything.
                     QMessageBox.warning(
                         self,
                         "Une erreur s'est produite!",
-                        f"Le client avec le prénom ({data[0]}) et/ou le nom ({data[1]}) donné existe déjà dans la base de données.",
+                        f"Le client avec le prénom ({first_name}) et/ou le nom ({last_name}) donné existe déjà dans la base de données.",
                         QMessageBox.Ok,
                     )
                     logger.warn(
-                        f"A client with the given first ({data[0]}) and/or last name ({data[1]}) already exists in the database."
+                        f"A client with the given first ({first_name}) and/or last name ({last_name}) already exists in the database."
                     )
                     return
 
@@ -87,10 +91,10 @@ class AddClientDialog(QDialog):
         QMessageBox.information(
             self,
             "Succès!",
-            f"Le client ({data[0]} {data[1]}, {data[2]}, {data[3]}) a été ajouté à la base de données.",
+            f"Le client ({first_name} {last_name}, {address}, {phone_number}) a été ajouté à la base de données.",
         )
         logger.info(
-            f"Added ({data[0]}, {data[1]}, {data[2]}, {data[3]}) values into the 'clients' table."
+            f"Added ({first_name}, {last_name}, {address}, {phone_number}) values into the 'clients' table."
         )
         self.close()
 
@@ -98,10 +102,10 @@ class AddClientDialog(QDialog):
         logger = getLogger("add_client_dialog.py")
 
         user_data = (
-            self.first_name_line_edit.text().strip().title(),
-            self.last_name_line_edit.text().strip().title(),
-            self.address_line_edit.text().strip(),
-            self.phone_number_line_edit.text().strip(),
+            self._first_name_line_edit.text().strip().title(),
+            self._last_name_line_edit.text().strip().title(),
+            self._address_line_edit.text().strip(),
+            self._phone_number_line_edit.text().strip(),
         )
 
         if "" in user_data:
