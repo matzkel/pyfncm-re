@@ -16,7 +16,7 @@ from logger import getLogger
 
 
 class DeleteClientDialog(QDialog):
-    """A dialog to delete a client from the database"""
+    """A dialog to delete a client from the database."""
 
     def __init__(self):
         super().__init__()
@@ -72,7 +72,7 @@ class DeleteClientDialog(QDialog):
         return self.__client_idx
 
     async def get_clients(self):
-        """Return a list containing clients from the database"""
+        """Return a list containing clients from the database."""
         clients = []
         async with sql.connect("data.db") as db:
             async with db.execute(

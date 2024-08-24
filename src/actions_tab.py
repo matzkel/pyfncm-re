@@ -7,7 +7,7 @@ from delete_food_dialog import DeleteFoodDialog
 
 
 class ActionsTab(QWidget):
-    """An extra tab that prompts the user to add or delete client/food"""
+    """An extra tab that prompts the user to add or delete client/food."""
 
     def __init__(self):
         super().__init__()

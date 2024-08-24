@@ -14,7 +14,7 @@ from logger import getLogger
 
 
 class AddClientDialog(QDialog):
-    """A dialog to add a new client to the database"""
+    """A dialog to add a new client to the database."""
 
     def __init__(self):
         super().__init__()
