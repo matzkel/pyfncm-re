@@ -64,7 +64,7 @@ class DeleteClientDialog(QDialog):
         button_box.rejected.connect(self.reject)
 
     def set_client_idx(self, row):
-        """Set client row index."""
+        """Set client row index (through clicking table item)."""
         self.__client_idx = row
 
     def get_client_idx(self):
