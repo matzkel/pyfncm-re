@@ -3,7 +3,7 @@ Rem Sadly nuitka doesn't support cross-compilation so you have to
 Rem setup virtual machine, install python 3.12 and use it to compile the app
 
 Rem mingw64 toolchain is REQUIRED to compile the application on Windows
-Rem python is REQUIRED to be add to your system's PATH environment variable
+Rem python is REQUIRED to be added to your system's PATH environment variable
 @echo off
 
 Rem Check if ./venv exists
