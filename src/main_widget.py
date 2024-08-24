@@ -9,5 +9,5 @@ class MainWidget(QTabWidget):
     def __init__(self):
         super().__init__()
 
-        _profile_tab = ActionsTab()
-        self.addTab(_profile_tab, "Actions principales")
+        actions_tab = ActionsTab()
+        self.addTab(actions_tab, "Actions principales")
