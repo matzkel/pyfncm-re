@@ -39,22 +39,18 @@ async def initialize_database(logger):
                         phone_number TEXT NOT NULL
                     );"""
         await db.execute(operation)
-        await db.commit()
 
         # Create index for clients table on first name, last name and phone number
         operation = "CREATE INDEX IF NOT EXISTS first_name_idx ON clients(first_name);"
         await db.execute(operation)
-        await db.commit()
 
         operation = "CREATE INDEX IF NOT EXISTS last_name_idx ON clients(last_name);"
         await db.execute(operation)
-        await db.commit()
 
         operation = (
             "CREATE INDEX IF NOT EXISTS phone_number_idx ON clients(phone_number);"
         )
         await db.execute(operation)
-        await db.commit()
 
         # Create food table if it doesn't exist
         operation = """
@@ -64,7 +60,6 @@ async def initialize_database(logger):
                         blue_color INTEGER
                     );"""
         await db.execute(operation)
-        await db.commit()
     logger.info("Database initialized...")
 
 
