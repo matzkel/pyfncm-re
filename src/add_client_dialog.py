@@ -72,11 +72,11 @@ class AddClientDialog(QDialog):
                     QMessageBox.warning(
                         self,
                         "Une erreur s'est produite!",
-                        f"Le client avec le prénom ({first_name}) et/ou le nom ({last_name}) donné existe déjà dans la base de données.",
+                        f"Le client avec le prénom ({first_name}) et le nom ({last_name}) donné existe déjà dans la base de données.",
                         QMessageBox.Ok,
                     )
                     logger.warn(
-                        f"A client with the given first ({first_name}) and/or last name ({last_name}) already exists in the database."
+                        f"A client with the given first ({first_name}) and last name ({last_name}) already exists in the database."
                     )
                     return
 
