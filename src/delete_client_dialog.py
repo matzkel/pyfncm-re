@@ -76,13 +76,14 @@ class DeleteClientDialog(QDialog):
         clients = []
         async with sql.connect("data.db") as db:
             async with db.execute(
-                "SELECT id, first_name, last_name, address, phone_number FROM clients"
+                "SELECT id, first_name, last_name, address, phone_number FROM clients;"
             ) as cursor:
                 async for row in cursor:
                     clients.append(row)
         return clients
 
     async def delete_client_from_database(self, logger, client):
+        """Delete client from the database."""
         # TODO: Delete also orders from all profiles when implemented.
         (client_id, first_name, last_name, address, phone_number) = client
 
