@@ -55,7 +55,8 @@ class DeleteFoodDialog(QDialog):
 
             header = table.horizontalHeader()
             header.setSectionResizeMode(QHeaderView.ResizeToContents)
-            self.setMinimumWidth(header.length())
+            # Add 35, lest part of the section gets swallowed
+            self.setMinimumWidth(header.length() + 35)
 
             header.setSectionResizeMode(QHeaderView.Stretch)
 
