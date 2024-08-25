@@ -65,10 +65,10 @@ class AddClientDialog(QDialog):
                             first_name = (?)
                             AND last_name = (?);"""
 
-            # Try to find client with the same first and last name.
+            # Try to find client with the same first and last name
             async with db.execute(operation, (first_name, last_name)) as cursor:
                 async for row in cursor:
-                    # When found, don't do anything.
+                    # When found, don't do anything
                     QMessageBox.warning(
                         self,
                         "Une erreur s'est produite!",
