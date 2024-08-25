@@ -87,7 +87,7 @@ class DeleteFoodDialog(QDialog):
         food = []
         async with sql.connect("data.db") as db:
             async with db.execute(
-                "SELECT id, food_name, red_color, blue_color, green_color FROM food;"
+                "SELECT id, food_name, red_color, green_color, blue_color FROM food;"
             ) as cursor:
                 async for row in cursor:
                     food.append(row)
