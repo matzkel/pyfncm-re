@@ -66,6 +66,30 @@ class AddFoodDialog(QDialog):
         (food_name, color) = data
 
         async with sql.connect("data.db") as db:
+            # Check if food with the exact name already exists in the database
+            operation = """
+                        SELECT
+                            food_name
+                        FROM
+                            food
+                        WHERE
+                            food_name = (?);"""
+
+            # Try to find food with the same name
+            async with db.execute(operation, (food_name,)) as cursor:
+                async for row in cursor:
+                    # When found, don't do anything
+                    QMessageBox.warning(
+                        self,
+                        "Une erreur s'est produite!",
+                        f"La nourriture portant le nom donné ({food_name}) existe déjà dans la base de données.",
+                        QMessageBox.Ok,
+                    )
+                    logger.warn(
+                        f"The food with given name ({food_name}) already exists in the database."
+                    )
+                    return
+
             if color is None:
                 (operation, values) = (
                     """
