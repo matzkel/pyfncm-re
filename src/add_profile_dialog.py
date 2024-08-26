@@ -16,9 +16,10 @@ from logger import getLogger
 class AddProfileDialog(QDialog):
     """A dialog to add a new profile to the database."""
 
-    def __init__(self, profiles):
+    def __init__(self, parent, profiles):
         super().__init__()
         self.setWindowTitle("pyfncm - Python Food and Clientèle Manager")
+        self._parent = parent
         self._profiles = profiles
 
         form_layout = QFormLayout()
@@ -38,6 +39,15 @@ class AddProfileDialog(QDialog):
 
         button_box.accepted.connect(self.accept)
         button_box.rejected.connect(self.reject)
+
+    def scrub(self, text):
+        """Return a string with only alphanumerics, stripped of all punctuation (except underscores) and whitespace."""
+        sanitized_text = ""
+        for ch in text:
+            if not ch.isalnum() and ch != "_":
+                raise ValueError
+            sanitized_text += ch
+        return sanitized_text
 
     async def add_profile_to_database(self, logger, profile_name):
         """Add profile to the database."""
@@ -86,4 +96,23 @@ class AddProfileDialog(QDialog):
             )
             return
 
-        asyncio.run(self.add_profile_to_database(logger, profile_name), debug=False)
+        try:
+            sanitized_profile_name = self.scrub(profile_name).title()
+        except ValueError:
+            QMessageBox.warning(
+                self,
+                "Une erreur s'est produite!",
+                f"Le nom de profil de votre choix ({profile_name}) contient des caractères interdits et n'a pas pu être créé. Veuillez supprimer tous les caractères d'espacement ou les remplacer par des caractères de soulignement et supprimer toute la ponctuation.",
+            )
+            logger.warn(
+                f"The profile name ({profile_name}) has forbidden character and couldn't be created."
+            )
+            return
+
+        asyncio.run(
+            self.add_profile_to_database(logger, sanitized_profile_name), debug=False
+        )
+
+        # Add new tab in the main widget and update _profiles variable
+        self._parent.add_profile_tab(sanitized_profile_name)
+        self._parent._profiles = asyncio.run(self._parent.get_profiles(), debug=False)

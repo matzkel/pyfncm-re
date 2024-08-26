@@ -26,10 +26,14 @@ class MainWidget(QTabWidget):
 
         self._profiles = asyncio.run(self.get_profiles(), debug=False)
         for profile in self._profiles:
-            profile_tab = ProfileTab()
-            self.addTab(profile_tab, profile)
+            self.add_profile_tab(profile)
 
         add_button.clicked.connect(self.add_profile)
+
+    def add_profile_tab(self, profile):
+        """Add new profile tab to the main widget."""
+        profile_tab = ProfileTab()
+        self.addTab(profile_tab, profile)
 
     async def get_profiles(self):
         """Return all profiles."""
@@ -46,5 +50,5 @@ class MainWidget(QTabWidget):
 
     def add_profile(self):
         """Add new profile to the database"""
-        add_profile_dialog = AddProfileDialog(self._profiles)
+        add_profile_dialog = AddProfileDialog(self, self._profiles)
         add_profile_dialog.exec()
