@@ -5,7 +5,7 @@
 #   nuitka-project: --enable-plugin=pyside6
 #   nuitka-project: --lto=yes
 #   nuitka-project: --disable-console
-#   nuitka-project: --windows-icon-from-ico=src\logo.png
+#   nuitka-project: --windows-icon-from-ico=src\logo.svg
 #   nuitka-project: --product-name="Python Food and Clientèle Manager"
 #   nuitka-project: --product-version=1.0
 #   nuitka-project: --file-description="Simple CRUD application to manage orders, clients, food and generate reports.""
