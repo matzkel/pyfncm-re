@@ -8,16 +8,16 @@ Rem python is REQUIRED to be added to your system's PATH environment variable
 
 Rem Check if ./venv exists
 set DIRECTORY=venv
-if not exists DIRECTORY {
+if not exists %DIRECTORY% (
     python -m venv venv
 
     Rem Check if ./requirements.txt exist and install them
     set REQUIREMENTS=requirements.txt
-    if exists REQUIREMENTS {
+    if exists %REQUIREMENTS% (
         call venv\Scripts\activate.bat
         python -m pip install -r requirements.txt
-    }
-}
+    )
+)
 
 Rem Build for Windows
 call venv\Scripts\activate.bat
