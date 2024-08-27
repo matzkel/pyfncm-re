@@ -50,7 +50,7 @@ class AddProfileDialog(QDialog):
         return sanitized_text
 
     async def add_profile_to_database(self, logger, profile_name):
-        """Add profile to the database."""
+        """Add new profile to the database."""
         async with sql.connect("data.db") as db:
             operation = f"""
                         CREATE TABLE IF NOT EXISTS {profile_name} (
