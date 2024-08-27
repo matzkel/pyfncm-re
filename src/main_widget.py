@@ -32,7 +32,7 @@ class MainWidget(QTabWidget):
 
     def add_profile_tab(self, profile):
         """Add new profile tab to the main widget."""
-        profile_tab = ProfileTab()
+        profile_tab = ProfileTab(self, profile)
         self.addTab(profile_tab, profile)
 
     async def get_profiles(self):
