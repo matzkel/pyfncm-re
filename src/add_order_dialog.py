@@ -22,10 +22,11 @@ from select_food_dialog import SelectFoodDialog
 class AddOrderDialog(QDialog):
     """A dialog to add a new order to the database."""
 
-    def __init__(self, profile_name):
+    def __init__(self, parent):
         super().__init__()
         self.setWindowTitle("pyfncm - Python Food and Clientèle Manager")
-        self._profile_name = profile_name
+        self._parent = parent
+        self._profile_name = parent._profile_name
 
         self.client_id = None
         self.client_label = QLabel("Client:")
@@ -137,3 +138,4 @@ class AddOrderDialog(QDialog):
         )
 
         asyncio.run(self.add_order_to_database(logger, user_data))
+        self._parent.update_table()
