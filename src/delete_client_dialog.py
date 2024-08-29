@@ -18,9 +18,11 @@ from logger import get_logger
 class DeleteClientDialog(QDialog):
     """A dialog to delete a client from the database."""
 
-    def __init__(self):
+    def __init__(self, profiles):
         super().__init__()
         self.setWindowTitle("pyfncm - Python Food and Clientèle Manager")
+        # List that will contain instances of profile tabs
+        self._profiles = profiles
 
         table = QTableWidget()
         table.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -84,10 +86,19 @@ class DeleteClientDialog(QDialog):
 
     async def delete_client_from_database(self, logger, client):
         """Delete client from the database."""
-        # TODO: Delete also orders from all profiles when implemented.
         (client_id, first_name, last_name, address, phone_number) = client
 
         async with sql.connect("data.db") as db:
+            for profile in self._profiles:
+                # Delete orders from all profiles
+                operation = (
+                    f"DELETE FROM {profile._profile_name} WHERE client_id = (?);"
+                )
+                await db.execute(operation, (client_id,))
+                await db.commit()
+            logger.info(
+                f"Deleted orders from profiles that had client_id = {client_id} from the database."
+            )
             operation = "DELETE FROM clients WHERE id = (?);"
             await db.execute(operation, (client_id,))
             await db.commit()
@@ -128,3 +139,5 @@ class DeleteClientDialog(QDialog):
         asyncio.run(
             self.delete_client_from_database(logger, self._clients[row]), debug=False
         )
+        for profile in self._profiles:
+            profile.update_table()

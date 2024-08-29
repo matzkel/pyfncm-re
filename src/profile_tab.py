@@ -87,6 +87,7 @@ class ProfileTab(QWidget):
         # Add 1 to account for main actions tab
         self._parent.removeTab(idx + 1)
         self._parent._profiles.pop(idx)
+        self._parent.actions_tab._profiles.pop(idx)
 
     def update_table(self):
         self.table.clear()

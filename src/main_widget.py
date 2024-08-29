@@ -21,8 +21,8 @@ class MainWidget(QTabWidget):
         add_button.setToolTip("Ajouter un nouveau profil")
         self.setCornerWidget(add_button, Qt.TopLeftCorner)
 
-        actions_tab = ActionsTab()
-        self.addTab(actions_tab, "Actions principales")
+        self.actions_tab = ActionsTab()
+        self.addTab(self.actions_tab, "Actions principales")
 
         self._profiles = asyncio.run(self.get_profiles(), debug=False)
         for profile in self._profiles:
@@ -33,6 +33,7 @@ class MainWidget(QTabWidget):
     def add_profile_tab(self, profile):
         """Add new profile tab to the main widget."""
         profile_tab = ProfileTab(self, profile)
+        self.actions_tab._profiles.append(profile_tab)
         self.addTab(profile_tab, profile)
 
     async def get_profiles(self):

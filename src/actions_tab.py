@@ -11,6 +11,8 @@ class ActionsTab(QWidget):
 
     def __init__(self):
         super().__init__()
+        # List that will contain instances of profile tabs
+        self._profiles = []
 
         self._add_client = QPushButton("Ajouter un client")
         self._delete_client = QPushButton("Supprimer le client")
@@ -49,7 +51,7 @@ class ActionsTab(QWidget):
         add_dialog.exec()
 
     def delete_client(self):
-        delete_dialog = DeleteClientDialog()
+        delete_dialog = DeleteClientDialog(self._profiles)
         delete_dialog.exec()
 
     def add_food(self):
@@ -57,7 +59,7 @@ class ActionsTab(QWidget):
         add_dialog.exec()
 
     def delete_food(self):
-        delete_dialog = DeleteFoodDialog()
+        delete_dialog = DeleteFoodDialog(self._profiles)
         delete_dialog.exec()
 
     def update_fonts(self):
