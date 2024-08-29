@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
-from logger import getLogger
+from logger import get_logger
 
 
 class AddProfileDialog(QDialog):
@@ -72,7 +72,7 @@ class AddProfileDialog(QDialog):
         self.close()
 
     def accept(self):
-        logger = getLogger("add_profile_dialog.py")
+        logger = get_logger("add_profile_dialog.py")
 
         profile_name = self._profile_name_line_edit.text().strip().title()
         if profile_name == "":

@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (
 )
 
 from add_order_dialog import AddOrderDialog
-from logger import getLogger
+from logger import get_logger
 
 
 class ProfileTab(QWidget):
@@ -65,7 +65,7 @@ class ProfileTab(QWidget):
         self.close()
 
     def delete_profile(self):
-        logger = getLogger("profile_tab.py")
+        logger = get_logger("profile_tab.py")
 
         question = QMessageBox.question(
             self,

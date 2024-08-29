@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
-from logger import getLogger
+from logger import get_logger
 
 
 class AddClientDialog(QDialog):
@@ -99,7 +99,7 @@ class AddClientDialog(QDialog):
         self.close()
 
     def accept(self):
-        logger = getLogger("add_client_dialog.py")
+        logger = get_logger("add_client_dialog.py")
 
         user_data = (
             self._first_name_line_edit.text().strip().title(),

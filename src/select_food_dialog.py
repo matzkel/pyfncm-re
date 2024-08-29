@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
-from logger import getLogger
+from logger import get_logger
 
 
 class SelectFoodDialog(QDialog):
@@ -96,7 +96,7 @@ class SelectFoodDialog(QDialog):
         return food
 
     def accept(self):
-        logger = getLogger("select_food_dialog.py")
+        logger = get_logger("select_food_dialog.py")
 
         row = self.get_food_idx()
         if row is None:

@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
-from logger import getLogger
+from logger import get_logger
 
 
 class DeleteFoodDialog(QDialog):
@@ -117,7 +117,7 @@ class DeleteFoodDialog(QDialog):
         self.close()
 
     def accept(self):
-        logger = getLogger("delete_food_dialog.py")
+        logger = get_logger("delete_food_dialog.py")
 
         row = self.get_food_idx()
         if row is None:

@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
-from logger import getLogger
+from logger import get_logger
 
 
 class DeleteClientDialog(QDialog):
@@ -102,7 +102,7 @@ class DeleteClientDialog(QDialog):
         self.close()
 
     def accept(self):
-        logger = getLogger("delete_client_dialog.py")
+        logger = get_logger("delete_client_dialog.py")
 
         row = self.get_client_idx()
         if row is None:

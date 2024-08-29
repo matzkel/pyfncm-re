@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
-from logger import getLogger
+from logger import get_logger
 
 
 class AddFoodDialog(QDialog):
@@ -132,7 +132,7 @@ class AddFoodDialog(QDialog):
         choose_color_dialog.exec()
 
     def accept(self):
-        logger = getLogger("add_food_dialog.py")
+        logger = get_logger("add_food_dialog.py")
 
         food_name = self._food_name_line_edit.text().strip().title()
         if food_name == "":

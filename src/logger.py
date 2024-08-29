@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 
-def getLogger(name):
+def get_logger(name):
     """Return a logger with the specified name."""
 
     # Logging hierarchy below:

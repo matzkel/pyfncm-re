@@ -14,7 +14,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
-from logger import getLogger
+from logger import get_logger
 from select_client_dialog import SelectClientDialog
 from select_food_dialog import SelectFoodDialog
 
@@ -118,7 +118,7 @@ class AddOrderDialog(QDialog):
         self.close()
 
     def accept(self):
-        logger = getLogger("add_order_dialog.py")
+        logger = get_logger("add_order_dialog.py")
 
         if None in (self.client_id, self.food_id):
             QMessageBox.warning(

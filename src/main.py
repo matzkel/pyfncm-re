@@ -21,7 +21,7 @@
 import aiosqlite as sql
 from PySide6.QtWidgets import QApplication, QMainWindow
 
-from logger import getLogger
+from logger import get_logger
 from main_widget import MainWidget
 
 
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     import asyncio
     import sys
 
-    logger = getLogger("main.py")
+    logger = get_logger("main.py")
 
     asyncio.run(initialize_database(logger), debug=False)
 

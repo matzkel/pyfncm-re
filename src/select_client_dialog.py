@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
-from logger import getLogger
+from logger import get_logger
 
 
 class SelectClientDialog(QDialog):
@@ -84,7 +84,7 @@ class SelectClientDialog(QDialog):
         return clients
 
     def accept(self):
-        logger = getLogger("select_client_dialog.py")
+        logger = get_logger("select_client_dialog.py")
 
         row = self.get_client_idx()
         if row is None:
