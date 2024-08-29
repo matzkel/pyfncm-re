@@ -54,7 +54,16 @@ class ProfileTab(QWidget):
         _add_order.clicked.connect(self.add_order)
         _delete_order.clicked.connect(self.delete_order)
 
+        self.table.cellClicked.connect(lambda row, _: self.set_order_idx(row))
         self.update_table()
+
+    def set_order_idx(self, row):
+        """Set order row index (through clicking table item)."""
+        self.__order_idx = row
+
+    def get_order_idx(self):
+        """Return chosen order row index (through clicking table item)."""
+        return self.__order_idx
 
     async def delete_profile_from_database(self, logger):
         """Delete a profile from the database."""
@@ -92,6 +101,7 @@ class ProfileTab(QWidget):
     def update_table(self):
         self.table.clear()
         self._orders = asyncio.run(self.get_orders(), debug=False)
+        self.__order_idx = None
         # Populate a table if there are any orders
         if self._orders:
             # Do not account for order id and food colors
@@ -187,5 +197,77 @@ class ProfileTab(QWidget):
         add_order_dialog = AddOrderDialog(self)
         add_order_dialog.exec()
 
+    async def delete_order_from_database(self, logger, data):
+        """Delete order from the database."""
+        (
+            order_id,
+            first_name,
+            last_name,
+            address,
+            phone_number,
+            food_name,
+            food_quantity,
+            date,
+        ) = data
+
+        async with sql.connect("data.db") as db:
+            operation = f"DELETE FROM {self._profile_name} WHERE id = (?);"
+            await db.execute(operation, (order_id,))
+            await db.commit()
+        QMessageBox.information(
+            self,
+            "Succès!",
+            f"La commande ({first_name} {last_name}, {address}, {phone_number}, {food_quantity}x {food_name}, {date}) a été supprimée du profil ({self._profile_name}).",
+        )
+        logger.info(
+            f"Deleted values associated with order ({first_name}, {last_name}, {address}, {phone_number}, {food_name}, {food_quantity}, {date}) from the '{self._profile_name}' table."
+        )
+
     def delete_order(self):
-        raise NotImplementedError()
+        logger = get_logger("profile_tab.py")
+
+        row = self.get_order_idx()
+        if row is None:
+            QMessageBox.warning(
+                self,
+                "Une erreur s'est produite!",
+                "Veuillez choisir la commande que vous souhaitez supprimer de la base de données.",
+            )
+            logger.warn("The order for deletion has not been chosen; choose one.")
+            return
+
+        (
+            order_id,
+            first_name,
+            last_name,
+            address,
+            phone_number,
+            food_name,
+            _,
+            _,
+            _,
+            food_quantity,
+            date,
+        ) = self._orders[row]
+
+        question = QMessageBox.question(
+            self,
+            "Es-tu sûr?",
+            f"Êtes-vous sûr de vouloir supprimer la commande ({first_name} {last_name}, {address}, {phone_number}, {food_quantity}x {food_name}, {date}) ?",
+            QMessageBox.Yes | QMessageBox.No,
+        )
+        if question == QMessageBox.No:
+            return
+
+        user_data = (
+            order_id,
+            first_name,
+            last_name,
+            address,
+            phone_number,
+            food_name,
+            food_quantity,
+            date,
+        )
+        asyncio.run(self.delete_order_from_database(logger, user_data), debug=False)
+        self.update_table()
