@@ -154,6 +154,10 @@ class ProfileTab(QWidget):
             self.setMinimumWidth(header.length() + 35)
 
             header.setSectionResizeMode(2, QHeaderView.Stretch)
+        else:
+            self.table.setColumnCount(0)
+            self.table.setRowCount(0)
+            self.table.setHorizontalHeaderLabels([])
 
     async def get_orders(self):
         """Return a list containing 1000 last orders for current profile."""
