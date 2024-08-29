@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from add_order_dialog import AddOrderDialog
 from logger import getLogger
 
 
@@ -33,10 +34,10 @@ class ProfileTab(QWidget):
         table.setSelectionBehavior(QAbstractItemView.SelectRows)
 
         bottom_bar = QHBoxLayout()
-        add_order = QPushButton("Ajouter une commande")
-        delete_order = QPushButton("Supprimer la commande")
-        bottom_bar.addWidget(add_order)
-        bottom_bar.addWidget(delete_order)
+        _add_order = QPushButton("Ajouter une commande")
+        _delete_order = QPushButton("Supprimer la commande")
+        bottom_bar.addWidget(_add_order)
+        bottom_bar.addWidget(_delete_order)
 
         layout = QVBoxLayout(self)
         layout.addLayout(top_bar)
@@ -46,6 +47,9 @@ class ProfileTab(QWidget):
         self.setLayout(layout)
 
         _delete_profile.clicked.connect(self.delete_profile)
+
+        _add_order.clicked.connect(self.add_order)
+        _delete_order.clicked.connect(self.delete_order)
 
     async def delete_profile_from_database(self, logger):
         """Delete a profile from the database."""
@@ -57,9 +61,7 @@ class ProfileTab(QWidget):
             "Succès!",
             f"Le profil ({self._profile_name}) a été supprimé de la base de données.",
         )
-        logger.info(
-            f"The profile ({self._profile_name}) has been deleted from the database."
-        )
+        logger.info(f"Deleted table ({self._profile_name}) from the database.")
         self.close()
 
     def delete_profile(self):
@@ -80,3 +82,10 @@ class ProfileTab(QWidget):
         # Add 1 to account for main actions tab
         self._parent.removeTab(idx + 1)
         self._parent._profiles.pop(idx)
+
+    def add_order(self):
+        add_order_dialog = AddOrderDialog(self._profile_name)
+        add_order_dialog.exec()
+
+    def delete_order(self):
+        raise NotImplementedError()
