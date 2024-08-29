@@ -96,7 +96,43 @@ class AddOrderDialog(QDialog):
 
     async def add_order_to_database(self, logger, data):
         """Add order to the database."""
+        (client_id, food_id, food_quantity, date) = data
+        client = self.client_label.text().split(": ")[1]
+        food = self.food_label.text().split(": ")[1]
+
         async with sql.connect("data.db") as db:
+            operation = f"""SELECT
+                                id
+                            FROM
+                                {self._profile_name}
+                            WHERE
+                                client_id = (?)
+                                AND food_id = (?)
+                                AND date = (?);"""
+            # Try to find existing order
+            async with db.execute(operation, (client_id, food_id, date)) as cursor:
+                async for row in cursor:
+                    # When found, update the food quantity
+                    operation = f"""UPDATE
+                                        {self._profile_name}
+                                    SET
+                                        food_quantity = food_quantity + {food_quantity}
+                                    WHERE
+                                        id = (?);"""
+                    await db.execute(operation, (row[0],))
+                    await db.commit()
+
+                    QMessageBox.information(
+                        self,
+                        "Succès!",
+                        f"La commande de {client} pour {food_quantity}x {food} à {date} a été ajoutée au profil ({self._profile_name}).",
+                    )
+                    logger.info(
+                        f"Added values ({client_id}, {food_id}, {food_quantity}, {date}) into the '{self._profile_name}' table."
+                    )
+                    self.close()
+                    return
+
             operation = f"""INSERT INTO {self._profile_name} (
                                 client_id, food_id, food_quantity,
                                 date
@@ -105,9 +141,6 @@ class AddOrderDialog(QDialog):
                                 (?, ?, ?, ?);"""
             await db.execute(operation, data)
             await db.commit()
-        client = self.client_label.text().split(": ")[1]
-        food = self.food_label.text().split(": ")[1]
-        (client_id, food_id, food_quantity, date) = data
         QMessageBox.information(
             self,
             "Succès!",
