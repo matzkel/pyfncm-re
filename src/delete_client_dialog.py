@@ -105,7 +105,7 @@ class DeleteClientDialog(QDialog):
         QMessageBox.information(
             self,
             "Succès!",
-            f"Le client ({first_name} {last_name}, {address}, {phone_number}) a été supprimé de la base de données",
+            f"Le client ({first_name} {last_name}, {address}, {phone_number}) a été supprimé de la base de données.",
         )
         logger.info(
             f"Deleted ({first_name}, {last_name}, {address}, {phone_number}) values from the 'clients' table."
