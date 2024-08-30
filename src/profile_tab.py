@@ -26,6 +26,8 @@ class ProfileTab(QWidget):
         self._parent = parent
         self._profile_name = profile_name
 
+        asyncio.run(self.delete_old_orders(), debug=False)
+
         top_bar = QHBoxLayout()
         _delete_profile = QPushButton("Supprimer le profil")
         search = QPushButton("Recherche")
@@ -200,6 +202,17 @@ class ProfileTab(QWidget):
     def add_order(self):
         add_order_dialog = AddOrderDialog(self)
         add_order_dialog.exec()
+
+    async def delete_old_orders(self):
+        """Delete old orders (i.e., 1 year old)."""
+        logger = get_logger("profile_tab.py")
+        async with sql.connect("data.db") as db:
+            operation = f"DELETE FROM {self._profile_name} WHERE date <= date('now', '-1 year');"
+            await db.execute(operation)
+            await db.commit()
+        logger.info(
+            f"Deleted 1 year old orders from the database for table '{self._profile_name}'."
+        )
 
     async def delete_order_from_database(self, logger, data):
         """Delete order from the database."""
