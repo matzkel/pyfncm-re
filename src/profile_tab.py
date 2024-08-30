@@ -30,9 +30,9 @@ class ProfileTab(QWidget):
 
         top_bar = QHBoxLayout()
         _delete_profile = QPushButton("Supprimer le profil")
-        search = QPushButton("Recherche")
+        _search = QPushButton("Recherche")
         top_bar.addWidget(_delete_profile, 4)
-        top_bar.addWidget(search, 12)
+        top_bar.addWidget(_search, 12)
 
         self.table = QTableWidget()
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -52,6 +52,7 @@ class ProfileTab(QWidget):
         self.setLayout(layout)
 
         _delete_profile.clicked.connect(self.delete_profile)
+        _search.clicked.connect(self.search)
 
         _add_order.clicked.connect(self.add_order)
         _delete_order.clicked.connect(self.delete_order)
@@ -99,6 +100,9 @@ class ProfileTab(QWidget):
         self._parent.removeTab(idx + 1)
         self._parent._profiles.pop(idx)
         self._parent.actions_tab._profiles.pop(idx)
+
+    def search(self):
+        raise NotImplementedError()
 
     def update_table(self):
         self.table.clear()
