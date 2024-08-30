@@ -58,7 +58,7 @@ class AddProfileDialog(QDialog):
                             client_id INTEGER NOT NULL,
                             food_id INTEGER NOT NULL,
                             food_quantity INTEGER NOT NULL,
-                            date TEXT NOT NULL,
+                            date INTEGER NOT NULL,
                             FOREIGN KEY (client_id) REFERENCES clients(id),
                             FOREIGN KEY (food_id) REFERENCES food(id)
                         );"""
